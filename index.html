@@ -13,6 +13,10 @@
             --border: #e2e8f0;
             --bg: #f8fafc;
             --white: #ffffff;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --orange: #f97316;
+            --red: #ef4444;
         }
 
         body {
@@ -63,10 +67,9 @@
         .btn-primary { background: var(--navy); color: white; }
         .btn-secondary { background: var(--border); color: var(--navy); }
         
-        /* CTA Specific Styling */
         .cta-box { background: var(--navy); color: white; padding: 40px; text-align: center; border-radius: 4px; margin-top: 40px; }
         .cta-box h3 { margin-top: 0; color: white; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-cta { background: white; color: var(--navy); padding: 15px 40px; font-weight: 600; margin-top: 20px; display: inline-block; text-decoration: none; border-radius: 4px; }
+        .btn-cta { background: white; color: var(--navy); padding: 15px 30px; font-weight: 600; margin-top: 10px; display: inline-block; text-decoration: none; border-radius: 4px; font-size: 0.85rem; }
 
         .footer { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); text-align: center; font-size: 10px; padding: 15px 0; border-top: 1px solid var(--border); color: var(--slate); z-index: 100; }
 
@@ -119,6 +122,8 @@
             <p id="result-meta" style="margin:5px 0; font-size:0.9rem; color:var(--slate);"></p>
         </div>
 
+        <div id="analysis-summary"></div>
+
         <div class="question-card">
             <h3 style="text-align:center; margin-top:0;">Signal Integrity Profile</h3>
             <div id="radar-div"></div>
@@ -127,9 +132,12 @@
         <div id="results-content"></div>
 
         <div class="cta-box">
-            <h3>Request a Mirror Meeting™</h3>
-            <p>Schedule a high-impact briefing to review these signals and identify organizational "House of Cards" risks.</p>
-            <a href="https://calendly.com/your-link" class="btn-cta">SCHEDULE BRIEFING →</a>
+            <h3>Structured Analysis Required</h3>
+            <p>This result reflects a signal pattern, not a root cause. Attempting to "fix" symptoms rather than dependencies creates further organizational fragility.</p>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
+                <a href="https://calendly.com/your-link" class="btn-cta">Request Mirror Meeting™ (Diagnostic Review)</a>
+                <a href="https://your-info-link.com" class="btn-cta" style="background:transparent; border:1px solid white; color:white;">Inquire: Strategic Stress Test™ (SST)</a>
+            </div>
         </div>
 
         <div class="nav-buttons">
@@ -149,6 +157,14 @@
         { name: 'Resource Resilience', questions: ['Which resources operate with no viable backup?', 'What capabilities exist only due to individual expertise?', 'Where is capacity sustained through overtime or heroics?', 'What resources are operating at or above sustainable capacity?', 'Which constraints are managed through workarounds?'] },
         { name: 'Information Flow', questions: ['How do you know when critical info isn\'t reaching leadership?', 'What signals of emerging problems go unnoticed?', 'Where does "everything is fine" mean someone is handling it quietly?', 'How is bad news communicated upward?', 'What information do you wish you had real-time visibility into?'] }
     ];
+
+    const FRACTURE_WARNINGS = {
+        'Leadership Awareness': 'Visibility is decoupled from reality. Allocations are likely based on "stale" signals or individual reassurance rather than verified data.',
+        'Operational Dependencies': 'The "Hero Culture" is masked as efficiency. A single departure or unexpected absence will trigger a cascade failure.',
+        'Decision Clarity': 'Execution speed is high, but trajectory is unverified. You are currently "out-running" your information quality.',
+        'Resource Resilience': 'Capacity is sustained through overtime and goodwill. This "Invisible Labor" is a finite resource at or near exhaustion.',
+        'Information Flow': 'Emerging problems are being "handled quietly." By the time a signal reaches leadership, the window for low-cost correction has closed.'
+    };
 
     const SIGNALS = ['Observed - Direct evidence', 'Assumed - Believed but not verified', 'Historical - Once true, not recently tested', 'Compensated - Held by people/workarounds'];
     let currentStep = 0, responses = {};
@@ -179,7 +195,7 @@
                 </select></div>`;
         });
         document.getElementById('prev-btn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
-        document.getElementById('next-btn').innerText = currentStep === LIFELINES.length - 1 ? 'Generate Results' : 'Next Lifeline →';
+        document.getElementById('next-btn').innerText = currentStep === LIFELINES.length - 1 ? 'Generate Final Artifact' : 'Next Lifeline →';
         window.scrollTo(0, 0);
     }
 
@@ -203,7 +219,6 @@
     function showResults() {
         document.getElementById('assessment-page').classList.add('hidden');
         document.getElementById('results-page').classList.remove('hidden');
-        document.getElementById('result-meta').innerText = `Org: ${responses.org_name} | Date: ${new Date().toLocaleDateString()}`;
 
         const scores = LIFELINES.map((life, lIdx) => {
             let total = 0;
@@ -214,12 +229,37 @@
             return (total / 20) * 100;
         });
 
-        // Plot Radar Chart
+        const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+        let posture, color, status;
+        if (avgScore >= 85) { posture = "STABLE"; color = "#22c55e"; status = "Validated / Low Risk"; }
+        else if (avgScore >= 70) { posture = "COMPENSATING"; color = "#eab308"; status = "Moderate Fragility"; }
+        else if (avgScore >= 50) { posture = "STRAINED"; color = "#f97316"; status = "Elevated Risk"; }
+        else { posture = "FRAGILE"; color = "#ef4444"; status = "Immediate Concern"; }
+
+        const minScore = Math.min(...scores);
+        const fractureIndex = scores.indexOf(minScore);
+        const fractureName = LIFELINES[fractureIndex].name;
+
+        document.getElementById('result-meta').innerText = `Org: ${responses.org_name} | Posture: ${posture}`;
+        document.getElementById('analysis-summary').innerHTML = `
+            <div class="question-card" style="border-top: 6px solid ${color};">
+                <h2 style="margin:0; color:${color}; letter-spacing:1px; text-transform:uppercase;">${posture} POSTURE</h2>
+                <p style="font-size:1.1rem; font-weight:600; margin-top:5px;">Signal Integrity: ${Math.round(avgScore)}% (${status})</p>
+                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                <p><strong>Primary Fracture Point: ${fractureName}</strong></p>
+                <p style="font-style:italic; color:var(--slate);">${FRACTURE_WARNINGS[fractureName]}</p>
+            </div>
+            <div class="question-card" style="background:#f1f5f9; border:none;">
+                <h3>The Workaround Economy™ Disclosure</h3>
+                <p style="font-size:0.95rem;">Performance is currently sustained through "Invisible Labor"—compensation by individuals to maintain stability while operational data remains unverified.</p>
+            </div>
+        `;
+
         Plotly.newPlot('radar-div', [{
             type: 'scatterpolar',
             r: [...scores, scores[0]],
             theta: [...LIFELINES.map(l => l.name), LIFELINES[0].name],
-            fill: 'toself', fillcolor: 'rgba(30, 41, 59, 0.2)', line: { color: '#1e293b' }
+            fill: 'toself', fillcolor: 'rgba(30, 41, 59, 0.1)', line: { color: '#1e293b' }
         }], {
             polar: { radialaxis: { visible: true, range: [0, 100] } },
             margin: { t: 30, b: 30, l: 60, r: 60 }, showlegend: false
