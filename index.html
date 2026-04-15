@@ -8,80 +8,30 @@
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
         :root {
-            --navy: #1e293b;
-            --slate: #64748b;
-            --border: #e2e8f0;
-            --bg: #f8fafc;
-            --white: #ffffff;
-            --green: #22c55e;
-            --yellow: #eab308;
-            --orange: #f97316;
-            --red: #ef4444;
+            --navy: #1e293b; --slate: #64748b; --border: #e2e8f0; --bg: #f8fafc;
+            --white: #ffffff; --green: #22c55e; --yellow: #eab308; --orange: #f97316; --red: #ef4444;
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--navy);
-            background-color: var(--bg);
-            margin: 0;
-            line-height: 1.6;
-        }
-
+        body { font-family: 'Inter', sans-serif; color: var(--navy); background-color: var(--bg); margin: 0; line-height: 1.6; }
         .container { max-width: 850px; margin: 0 auto; padding: 40px 20px 100px 20px; }
-
-        header { 
-            border-bottom: 2px solid var(--navy); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .logo-container { margin-right: 20px; margin-bottom: 10px; }
-        .southwind-logo { max-width: 150px; height: auto; display: block; }
-        .title-container { flex-grow: 1; }
-        
-        h1 { font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin: 0; font-size: 1.6rem; }
-        .tagline { font-style: italic; color: var(--slate); font-weight: 500; margin-top: 8px; font-size: 0.95rem; }
-
+        header { border-bottom: 2px solid var(--navy); padding-bottom: 20px; margin-bottom: 30px; display: flex; align-items: center; flex-wrap: wrap; }
+        .logo-container { margin-right: 20px; }
+        .southwind-logo { max-width: 140px; height: auto; display: block; }
+        h1 { font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin: 0; font-size: 1.5rem; }
+        .tagline { font-style: italic; color: var(--slate); font-weight: 500; font-size: 0.9rem; }
         .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 30px; }
         .progress-fill { height: 100%; background: var(--navy); transition: width 0.4s ease; width: 0%; }
-
-        .lifeline-header { background: #f1f5f9; padding: 15px 20px; border-left: 4px solid var(--slate); margin-bottom: 25px; }
-
-        .question-card {
-            background: var(--white);
-            border: 1px solid var(--border);
-            padding: 25px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        textarea { width: 100%; height: 100px; border: 1px solid var(--border); padding: 12px; border-radius: 4px; box-sizing: border-box; resize: vertical; margin-bottom: 15px; font-family: inherit; }
+        .question-card { background: var(--white); border: 1px solid var(--border); padding: 25px; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        textarea { width: 100%; height: 100px; border: 1px solid var(--border); padding: 12px; border-radius: 4px; box-sizing: border-box; resize: vertical; margin-bottom: 15px; font-family: inherit; font-size: 1rem; }
         select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--white); cursor: pointer; }
-
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; }
-        button { padding: 14px 28px; font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.2s; border: none; font-size: 0.9rem; }
+        button { padding: 14px 28px; font-weight: 500; cursor: pointer; border-radius: 4px; border: none; font-size: 0.9rem; transition: 0.2s; }
         .btn-primary { background: var(--navy); color: white; }
         .btn-secondary { background: var(--border); color: var(--navy); }
-        
         .cta-box { background: var(--navy); color: white; padding: 40px; text-align: center; border-radius: 4px; margin-top: 40px; }
-        .cta-box h3 { margin-top: 0; color: white; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-cta { background: white; color: var(--navy); padding: 15px 30px; font-weight: 600; margin-top: 10px; display: inline-block; text-decoration: none; border-radius: 4px; font-size: 0.85rem; }
-
-        .footer { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); text-align: center; font-size: 10px; padding: 15px 0; border-top: 1px solid var(--border); color: var(--slate); z-index: 100; }
-
+        .btn-cta { background: white; color: var(--navy); padding: 15px 30px; font-weight: 600; display: inline-block; text-decoration: none; border-radius: 4px; margin-top: 15px; }
+        .footer { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); text-align: center; font-size: 10px; padding: 15px 0; border-top: 1px solid var(--border); color: var(--slate); }
         .hidden { display: none; }
-        #radar-div { width: 100%; height: 450px; margin: 20px 0; }
-
-        @media print {
-            .nav-buttons, .footer, .progress-bar, button, .cta-box { display: none !important; }
-            body { background: white; }
-            .container { padding: 0; }
-            .question-card { box-shadow: none; page-break-inside: avoid; }
-        }
+        @media print { .nav-buttons, .footer, .progress-bar, button, .cta-box { display: none !important; } .container { padding: 0; } }
     </style>
 </head>
 <body>
@@ -98,7 +48,7 @@
     </header>
 
     <div id="metadata-page">
-        <p><em>A structured executive diagnostic from Southwind Planning Solutions that reveals where leadership decisions are supported by verified information—and where they depend on assumptions.</em></p>
+        <p><em>Revealing where leadership decisions are supported by verified information—and where they depend on the Workaround Economy™.</em></p>
         <div class="question-card">
             <label style="display:block; font-weight:600; margin-bottom:8px;">ORGANIZATION NAME</label>
             <input type="text" id="org_name" style="width:100%; padding:12px; border:1px solid var(--border); border-radius:4px;">
@@ -108,7 +58,6 @@
 
     <div id="assessment-page" class="hidden">
         <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
-        <div class="lifeline-header"><h2 id="lifeline-name" style="margin:0;"></h2></div>
         <div id="questions-container"></div>
         <div class="nav-buttons">
             <button id="prev-btn" class="btn-secondary" onclick="prevStep()">← Previous</button>
@@ -117,61 +66,62 @@
     </div>
 
     <div id="results-page" class="hidden">
-        <div class="lifeline-header">
-            <h2 style="margin:0;">Executive Assessment Artifact</h2>
-            <p id="result-meta" style="margin:5px 0; font-size:0.9rem; color:var(--slate);"></p>
-        </div>
-
         <div id="analysis-summary"></div>
-
         <div class="question-card">
             <h3 style="text-align:center; margin-top:0;">Signal Integrity Profile</h3>
-            <div id="radar-div"></div>
+            <div id="radar-div" style="width:100%; height:400px;"></div>
+        </div>
+
+        <div id="capture-layer" class="question-card" style="border: 2px solid var(--navy); background: #fdfdfd;">
+            <h4>Want a plain-language interpretation of this result?</h4>
+            <p style="font-size:0.9rem;">Submit your email to receive a detailed breakdown of your Primary Fracture Point and how it scales into the Workaround Economy™.</p>
+            <div style="display:flex; gap:10px;">
+                <input type="email" id="lead_email" placeholder="executive@company.com" style="flex-grow:1; padding:10px; border:1px solid var(--border);">
+                <button class="btn-primary" onclick="captureLead()">Send Interpretation</button>
+            </div>
+            <p id="capture-msg" style="font-size:0.8rem; margin-top:10px; color:var(--green);" class="hidden">Request received. Interpretation will be sent within 24 hours.</p>
         </div>
 
         <div id="results-content"></div>
 
         <div class="cta-box">
-            <h3>Structured Analysis Required</h3>
-            <p>This result reflects a signal pattern, not a root cause. Attempting to "fix" symptoms rather than dependencies creates further organizational fragility.</p>
-            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
-                <a href="https://calendly.com/your-link" class="btn-cta">Request Mirror Meeting™ (Diagnostic Review)</a>
-                <a href="https://your-info-link.com" class="btn-cta" style="background:transparent; border:1px solid white; color:white;">Inquire: Strategic Stress Test™ (SST)</a>
-            </div>
+            <h3 id="cta-headline">Structured Analysis Required</h3>
+            <p>Most organizations misread this stage. To understand what is actually driving these signals, a structured review is the next step.</p>
+            <a id="mirror-btn" href="https://calendly.com/your-link" class="btn-cta">BOOK MIRROR MEETING™</a>
+            <p style="margin-top:20px; font-size:0.8rem; opacity:0.8;">Where this leads: <a href="#" style="color:white;">The Strategic Stress Test™ (Flagship)</a></p>
         </div>
 
         <div class="nav-buttons">
-            <button class="btn-secondary" onclick="location.reload()">Start Over</button>
-            <button class="btn-primary" onclick="window.print()">Print / Save PDF</button>
+            <button class="btn-secondary" onclick="window.print()">Print to PDF</button>
+            <button class="btn-secondary" onclick="location.reload()">Reset</button>
         </div>
     </div>
 </div>
-
-<div class="footer">Southwind Planning • Readiness Is Not a Plan. It’s a Capability. • 2026</div>
+<div class="footer">Southwind Planning Solutions • 2026</div>
 
 <script>
     const LIFELINES = [
-        { name: 'Leadership Awareness', questions: ['How do you currently know what is working across critical operations?', 'When priorities compete, how do you know which dependencies will fail first?', 'What would become visible only under sustained pressure?', 'How do leaders verify that operational assumptions are valid?', 'What information has not been independently confirmed in 6 months?'] },
-        { name: 'Operational Dependencies', questions: ['What processes depend on specific individuals?', 'Which vendor relationships have not been stress-tested in 12 months?', 'What workarounds have become standard operating procedure?', 'What happens if your top experts are unavailable for two weeks?', 'Which systems lack documented backup procedures?'] },
-        { name: 'Decision Clarity', questions: ['How do you verify you\'re working from current information?', 'What decisions are delayed due to incomplete information?', 'Where do informal channels override formal processes?', 'How do you know when a decision is based on assumed info?', 'What percentage of major decisions use verified data?'] },
+        { name: 'Leadership Awareness', questions: ['How do you know what is under strain across critical operations?', 'When priorities compete, how do you know which dependencies will fail first?', 'What would become visible only under sustained pressure?', 'How do leaders verify that operational assumptions are valid?', 'What information has not been independently confirmed in 6 months?'] },
+        { name: 'Operational Dependencies', questions: ['What processes depend on specific individuals?', 'Which vendor relationships have not been stress-tested in 12 months?', 'What workarounds have become standard operating procedure?', 'What happens if experts are unavailable for two weeks?', 'Which systems lack documented backup procedures?'] },
+        { name: 'Decision Clarity', questions: ['How do you verify you\'re working from current information?', 'What decisions are delayed due to incomplete info?', 'Where do informal channels override formal processes?', 'How do you know when a decision is based on assumed info?', 'What % of major decisions use verified data?'] },
         { name: 'Resource Resilience', questions: ['Which resources operate with no viable backup?', 'What capabilities exist only due to individual expertise?', 'Where is capacity sustained through overtime or heroics?', 'What resources are operating at or above sustainable capacity?', 'Which constraints are managed through workarounds?'] },
-        { name: 'Information Flow', questions: ['How do you know when critical info isn\'t reaching leadership?', 'What signals of emerging problems go unnoticed?', 'Where does "everything is fine" mean someone is handling it quietly?', 'How is bad news communicated upward?', 'What information do you wish you had real-time visibility into?'] }
+        { name: 'Information Flow', questions: ['How do you know when critical info isn\'t reaching leadership?', 'What signals of emerging problems go unnoticed?', 'Where does "everything is fine" mean "someone is handling it quietly"?', 'How is bad news communicated upward?', 'What info do you wish you had real-time visibility into?'] }
     ];
 
-    const FRACTURE_WARNINGS = {
-        'Leadership Awareness': 'Visibility is decoupled from reality. Allocations are likely based on "stale" signals or individual reassurance rather than verified data.',
-        'Operational Dependencies': 'The "Hero Culture" is masked as efficiency. A single departure or unexpected absence will trigger a cascade failure.',
-        'Decision Clarity': 'Execution speed is high, but trajectory is unverified. You are currently "out-running" your information quality.',
-        'Resource Resilience': 'Capacity is sustained through overtime and goodwill. This "Invisible Labor" is a finite resource at or near exhaustion.',
-        'Information Flow': 'Emerging problems are being "handled quietly." By the time a signal reaches leadership, the window for low-cost correction has closed.'
+    const WARNINGS = {
+        'Leadership Awareness': 'Visibility is decoupled from reality. You are likely making allocations based on "stale" signals.',
+        'Operational Dependencies': 'Hero Culture is masking fragility. A single departure will trigger a cascade failure.',
+        'Decision Clarity': 'You are currently "out-running" your information quality. Velocity is high; accuracy is unverified.',
+        'Resource Resilience': 'Invisible Labor is at exhaustion. Performance is sustained by overtime that cannot scale.',
+        'Information Flow': 'Emerging problems are being handled quietly. The window for low-cost correction is closing.'
     };
 
-    const SIGNALS = ['Observed - Direct evidence', 'Assumed - Believed but not verified', 'Historical - Once true, not recently tested', 'Compensated - Held by people/workarounds'];
+    const SIGNALS = ['Observed - Direct evidence', 'Assumed - Unverified', 'Historical - Not recently tested', 'Compensated - People/Workarounds'];
     let currentStep = 0, responses = {};
 
     function startAssessment() {
         const org = document.getElementById('org_name').value;
-        if(!org.trim()) return alert("Enter Organization Name");
+        if(!org.trim()) return alert("Organization Name Required");
         responses.org_name = org;
         document.getElementById('metadata-page').classList.add('hidden');
         document.getElementById('assessment-page').classList.remove('hidden');
@@ -180,40 +130,34 @@
 
     function renderStep() {
         const data = LIFELINES[currentStep];
-        document.getElementById('lifeline-name').innerText = data.name;
         document.getElementById('progress-fill').style.width = ((currentStep + 1) / LIFELINES.length * 100) + '%';
         const container = document.getElementById('questions-container');
-        container.innerHTML = '';
+        container.innerHTML = `<div class="lifeline-header"><h2>${data.name}</h2></div>`;
         data.questions.forEach((q, i) => {
             const key = `l${currentStep}_q${i}`;
             const saved = responses[key] || { text: '', signal: SIGNALS[0] };
             container.innerHTML += `<div class="question-card">
                 <p><strong>${i+1}.</strong> <em>${q}</em></p>
-                <textarea id="text_${key}" onchange="saveData('${key}')">${saved.text}</textarea>
+                <textarea id="text_${key}" oninput="saveData('${key}')">${saved.text}</textarea>
                 <select id="select_${key}" onchange="saveData('${key}')">
                     ${SIGNALS.map(s => `<option ${saved.signal === s ? 'selected' : ''}>${s}</option>`).join('')}
                 </select></div>`;
         });
-        document.getElementById('prev-btn').style.visibility = currentStep === 0 ? 'hidden' : 'visible';
-        document.getElementById('next-btn').innerText = currentStep === LIFELINES.length - 1 ? 'Generate Final Artifact' : 'Next Lifeline →';
-        window.scrollTo(0, 0);
+        document.getElementById('next-btn').innerText = currentStep === LIFELINES.length - 1 ? 'Generate Report' : 'Next Lifeline →';
+        window.scrollTo(0,0);
     }
 
     function saveData(key) {
         responses[key] = { text: document.getElementById(`text_${key}`).value, signal: document.getElementById(`select_${key}`).value };
     }
 
-    function nextStep() {
-        if(currentStep < LIFELINES.length - 1) { currentStep++; renderStep(); } else { showResults(); }
-    }
-
+    function nextStep() { if(currentStep < LIFELINES.length - 1) { currentStep++; renderStep(); } else { showResults(); } }
     function prevStep() { if(currentStep > 0) { currentStep--; renderStep(); } }
 
-    function calculateScore(sig) {
-        if(sig.includes('Observed')) return 4;
-        if(sig.includes('Assumed')) return 2;
-        if(sig.includes('Historical')) return 1;
-        return 0;
+    function captureLead() {
+        const email = document.getElementById('lead_email').value;
+        if(!email.includes('@')) return alert("Valid Email Required");
+        document.getElementById('capture-msg').classList.remove('hidden');
     }
 
     function showResults() {
@@ -223,47 +167,35 @@
         const scores = LIFELINES.map((life, lIdx) => {
             let total = 0;
             life.questions.forEach((_, qIdx) => {
-                const data = responses[`l${lIdx}_q${qIdx}`] || { signal: '' };
-                total += calculateScore(data.signal);
+                const sig = (responses[`l${lIdx}_q${qIdx}`] || {}).signal || '';
+                total += sig.includes('Observed') ? 4 : sig.includes('Assumed') ? 2 : sig.includes('Historical') ? 1 : 0;
             });
             return (total / 20) * 100;
         });
 
-        const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
-        let posture, color, status;
-        if (avgScore >= 85) { posture = "STABLE"; color = "#22c55e"; status = "Validated / Low Risk"; }
-        else if (avgScore >= 70) { posture = "COMPENSATING"; color = "#eab308"; status = "Moderate Fragility"; }
-        else if (avgScore >= 50) { posture = "STRAINED"; color = "#f97316"; status = "Elevated Risk"; }
-        else { posture = "FRAGILE"; color = "#ef4444"; status = "Immediate Concern"; }
+        const avg = scores.reduce((a,b)=>a+b,0) / scores.length;
+        let posture = "FRAGILE", color = "var(--red)";
+        if(avg >= 85) { posture = "STABLE"; color = "var(--green)"; }
+        else if(avg >= 70) { posture = "COMPENSATING"; color = "var(--yellow)"; }
+        else if(avg >= 50) { posture = "STRAINED"; color = "var(--orange)"; }
 
-        const minScore = Math.min(...scores);
-        const fractureIndex = scores.indexOf(minScore);
-        const fractureName = LIFELINES[fractureIndex].name;
+        const minIdx = scores.indexOf(Math.min(...scores));
+        const fracture = LIFELINES[minIdx].name;
 
-        document.getElementById('result-meta').innerText = `Org: ${responses.org_name} | Posture: ${posture}`;
+        // Dynamic result-based CTA
+        document.getElementById('mirror-btn').innerText = `YOU SCORED ${posture} — BOOK A MIRROR MEETING™`;
         document.getElementById('analysis-summary').innerHTML = `
             <div class="question-card" style="border-top: 6px solid ${color};">
-                <h2 style="margin:0; color:${color}; letter-spacing:1px; text-transform:uppercase;">${posture} POSTURE</h2>
-                <p style="font-size:1.1rem; font-weight:600; margin-top:5px;">Signal Integrity: ${Math.round(avgScore)}% (${status})</p>
-                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                <p><strong>Primary Fracture Point: ${fractureName}</strong></p>
-                <p style="font-style:italic; color:var(--slate);">${FRACTURE_WARNINGS[fractureName]}</p>
-            </div>
-            <div class="question-card" style="background:#f1f5f9; border:none;">
-                <h3>The Workaround Economy™ Disclosure</h3>
-                <p style="font-size:0.95rem;">Performance is currently sustained through "Invisible Labor"—compensation by individuals to maintain stability while operational data remains unverified.</p>
-            </div>
-        `;
+                <h2 style="color:${color}; margin:0;">${posture} POSTURE</h2>
+                <p>Signal Integrity: ${Math.round(avg)}% | Primary Fracture Point: <strong>${fracture}</strong></p>
+                <p style="font-style:italic;">${WARNINGS[fracture]}</p>
+            </div>`;
 
         Plotly.newPlot('radar-div', [{
-            type: 'scatterpolar',
-            r: [...scores, scores[0]],
-            theta: [...LIFELINES.map(l => l.name), LIFELINES[0].name],
-            fill: 'toself', fillcolor: 'rgba(30, 41, 59, 0.1)', line: { color: '#1e293b' }
-        }], {
-            polar: { radialaxis: { visible: true, range: [0, 100] } },
-            margin: { t: 30, b: 30, l: 60, r: 60 }, showlegend: false
-        });
+            type: 'scatterpolar', r: [...scores, scores[0]],
+            theta: [...LIFELINES.map(l=>l.name), LIFELINES[0].name],
+            fill: 'toself', fillcolor: 'rgba(30,41,59,0.1)', line: {color:'#1e293b'}
+        }], { polar: {radialaxis:{range:[0,100]}}, margin:{t:30,b:30,l:60,r:60} });
 
         let html = '';
         LIFELINES.forEach((life, lIdx) => {
@@ -278,7 +210,7 @@
             html += `</div>`;
         });
         document.getElementById('results-content').innerHTML = html;
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
     }
 </script>
 </body>
